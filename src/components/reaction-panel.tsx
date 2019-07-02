@@ -7,15 +7,15 @@ const Wrapper = styled.div<{ isVisible: boolean }>`
   background: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px 0px;
   display: inline-block;
-  border-radius: 40px;
+  border-radius: 30px;
   padding: 0 5px;
   position: absolute;
   bottom: 30px;
   pointer-events: ${props => (props.isVisible ? 'auto' : 'none')};
   position: absolute;
   left: 0;
-  width: 290px;
-  height: 60px;
+  width: 240px;
+  height: 65px;
 `
 
 const AnimatedWrapper = animated(Wrapper)

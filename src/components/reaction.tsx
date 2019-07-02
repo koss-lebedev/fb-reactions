@@ -1,21 +1,24 @@
 import React, { FC } from 'react'
+import { animated, useSpring } from 'react-spring'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  width: 80px;
+  width: 60px;
   transition: transform 0.2s;
   position: absolute;
-  bottom: -15px;
   text-align: center;
+  bottom: 0;
+  cursor: pointer;
 
   &:hover {
-    transform: scale(2) translateY(-15px);
+    transform: scale(1.3) translateY(-20px);
+    z-index: 1;
   }
 
   ${[0, 1, 2, 3].map(
     item => `
     &:nth-child(${item + 1}) {
-      left: ${item * 80 - 10}px;
+      left: ${item * 60 + 5}px;
     }
   `
   )}
@@ -30,7 +33,12 @@ const Label = styled.small`
   color: white;
   padding: 3px 5px;
   border-radius: 10px;
+  margin-bottom: 5px;
+  font-size: 10px;
+  display: inline-block;
 `
+
+const AnimatedLabel = animated(Label)
 
 type Props = {
   image: string
@@ -39,9 +47,32 @@ type Props = {
 }
 
 const Reaction: FC<Props> = ({ image, value, onChange }) => {
+  const [labelStyle, set] = useSpring(() => ({
+    opacity: 0,
+    scale: 0,
+  }))
+
+  const handleEnter = () => {
+    set({
+      opacity: 1,
+      scale: 1,
+    })
+  }
+
+  const handleLeave = () => {
+    set({
+      opacity: 0,
+      scale: 0,
+    })
+  }
+
   return (
-    <Wrapper onClick={() => onChange(value)}>
-      <Label>{value}</Label>
+    <Wrapper
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      onClick={() => onChange(value)}
+    >
+      <AnimatedLabel style={labelStyle}>{value}</AnimatedLabel>
       <Image src={image} />
     </Wrapper>
   )

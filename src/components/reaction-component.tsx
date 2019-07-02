@@ -2,6 +2,7 @@ import React, { FC, useState, useRef } from 'react'
 import styled from 'styled-components'
 import useOnClickOutside from 'use-onclickoutside'
 import ReactionPanel from './reaction-panel'
+import LikeButton from './like-button'
 import Hint from './hint'
 
 const Wrapper = styled.div`
@@ -9,12 +10,10 @@ const Wrapper = styled.div`
   position: relative;
 `
 
-const Button = styled.button``
-
 const ReactionComponent: FC = () => {
   const wrapperRef = useRef(null)
   const [isOpen, setOpen] = useState(false)
-  const [emotion, setEmotion] = useState<Emotion | null>(null)
+  const [emotion, setEmotion] = useState<Emotion | undefined>(undefined)
 
   useOnClickOutside(wrapperRef, () => {
     setOpen(false)
@@ -32,7 +31,7 @@ const ReactionComponent: FC = () => {
       {isOpen ? (
         <Hint>Slide cursor across</Hint>
       ) : (
-        <Button onClick={() => setOpen(true)}>Like</Button>
+        <LikeButton emotion={emotion} onClick={() => setOpen(true)} />
       )}
     </Wrapper>
   )
