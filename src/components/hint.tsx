@@ -1,24 +1,16 @@
-import React, { useState, FC } from 'react'
-import styled from 'styled-components'
-import { animated, useSpring } from 'react-spring'
+import React, { FC } from 'react'
+import styled, { keyframes } from 'styled-components'
 
-const Wrapper = styled.p``
+const pulse = keyframes`
+  0% { opacity: 1 }
+  50% { opacity: 0.5 }
+  100% { opacity: 1 }
+`
 
-const AnimatedWrapper = animated(Wrapper)
+const Wrapper = styled.p`
+  animation: ${pulse} 1.5s linear infinite;
+`
 
-// TODO: use keyframes
-const Hint: FC = () => {
-  const [flipped, setFlipped] = useState(false)
-  const wrapperStyle = useSpring({
-    opacity: flipped ? 1 : 0.5,
-    onRest: () => {
-      setFlipped(!flipped)
-    },
-  })
-
-  return (
-    <AnimatedWrapper style={wrapperStyle}>Slide cursor across</AnimatedWrapper>
-  )
-}
+const Hint: FC = () => <Wrapper>Choose your reaction</Wrapper>
 
 export default Hint

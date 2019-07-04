@@ -15,7 +15,13 @@ const Wrapper = styled.div<{ isVisible: boolean }>`
   position: absolute;
   left: 0;
   width: 240px;
-  height: 65px;
+  height: 67px;
+`
+
+const Inner = styled.div`
+  position: absolute;
+  bottom: 0;
+  display: flex;
 `
 
 const AnimatedWrapper = animated(Wrapper)
@@ -53,14 +59,16 @@ const ReactionPanel: FC<Props> = ({ isVisible, onChange }) => {
 
   return (
     <AnimatedWrapper isVisible={isVisible} style={panelStyle}>
-      {reactions.map(reaction => (
-        <Reaction
-          key={reaction.value}
-          image={reaction.image}
-          value={reaction.value}
-          onChange={() => onChange(reaction.value)}
-        />
-      ))}
+      <Inner>
+        {reactions.map(reaction => (
+          <Reaction
+            key={reaction.value}
+            image={reaction.image}
+            value={reaction.value}
+            onChange={() => onChange(reaction.value)}
+          />
+        ))}
+      </Inner>
     </AnimatedWrapper>
   )
 }

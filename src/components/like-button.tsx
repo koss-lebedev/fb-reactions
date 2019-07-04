@@ -1,4 +1,10 @@
-import React, { FC, ButtonHTMLAttributes } from 'react'
+import React, {
+  FC,
+  ButtonHTMLAttributes,
+  MouseEvent,
+  useRef,
+  useEffect,
+} from 'react'
 import styled from 'styled-components'
 
 const colors = {
@@ -14,15 +20,61 @@ const Button = styled.button<{ emotion?: Emotion }>`
   background: transparent;
   border-radius: 5px;
   text-transform: capitalize;
+  cursor: pointer;
+  outline: none;
   border: 1px solid ${({ emotion }) => (emotion ? colors[emotion] : '#dfe5ea')};
   color: ${({ emotion }) => (emotion ? colors[emotion] : 'black')};
   font-weight: ${({ emotion }) => (emotion ? 'bold' : 'regular')};
 `
 
 const LikeButton: FC<
-  ButtonHTMLAttributes<HTMLButtonElement> & { emotion?: Emotion }
-> = props => {
-  return <Button {...props}>{props.emotion || 'like'}</Button>
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    emotion?: Emotion
+    onLongHover?: () => void
+  }
+> = ({ onLongHover, onClick, emotion, ...props }) => {
+  const timeout = useRef<number>()
+
+  const cleanup = () => {
+    if (timeout.current) {
+      clearTimeout(timeout.current)
+    }
+  }
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    cleanup()
+
+    if (onClick) {
+      onClick(event)
+    }
+  }
+  const handleEnter = () => {
+    timeout.current = setTimeout(() => {
+      if (onLongHover) {
+        onLongHover()
+      }
+    }, 700)
+  }
+
+  const handleLeave = () => {
+    cleanup()
+  }
+
+  useEffect(() => {
+    return cleanup
+  }, [])
+
+  return (
+    <Button
+      {...props}
+      emotion={emotion}
+      onClick={handleClick}
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+    >
+      {emotion || 'like'}
+    </Button>
+  )
 }
 
 export default LikeButton

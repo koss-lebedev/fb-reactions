@@ -5,23 +5,13 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   width: 60px;
   transition: transform 0.2s;
-  position: absolute;
   text-align: center;
-  bottom: 0;
   cursor: pointer;
 
   &:hover {
     transform: scale(1.3) translateY(-20px);
     z-index: 1;
   }
-
-  ${[0, 1, 2, 3].map(
-    item => `
-    &:nth-child(${item + 1}) {
-      left: ${item * 60 + 5}px;
-    }
-  `
-  )}
 `
 
 const Image = styled.img`

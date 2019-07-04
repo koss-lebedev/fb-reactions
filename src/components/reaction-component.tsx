@@ -24,6 +24,18 @@ const ReactionComponent: FC = () => {
     setOpen(false)
   }
 
+  const handleClick = () => {
+    if (emotion) {
+      setEmotion(undefined)
+    } else {
+      setEmotion('like')
+    }
+  }
+
+  const handleLongHover = () => {
+    setOpen(true)
+  }
+
   return (
     <Wrapper ref={wrapperRef}>
       <ReactionPanel isVisible={isOpen} onChange={handleChange} />
@@ -31,7 +43,11 @@ const ReactionComponent: FC = () => {
       {isOpen ? (
         <Hint>Slide cursor across</Hint>
       ) : (
-        <LikeButton emotion={emotion} onClick={() => setOpen(true)} />
+        <LikeButton
+          emotion={emotion}
+          onClick={handleClick}
+          onLongHover={handleLongHover}
+        />
       )}
     </Wrapper>
   )
